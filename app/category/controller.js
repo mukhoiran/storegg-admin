@@ -56,4 +56,17 @@ module.exports = {
          console.log(error)
       }
    },
+   deleteAction: async(req, res)=>{
+      try {
+         const { id } = req.params
+         
+         const category = await Category.findOneAndRemove({ 
+            _id: id 
+         })
+
+         res.redirect('/category')
+      } catch (error) {
+         console.log(error)
+      }
+   },
 }
