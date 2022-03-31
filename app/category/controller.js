@@ -3,19 +3,29 @@ const Category = require('./model')
 module.exports = {
    index: async(req, res)=>{
       try {
+         
+         const alertMessage = req.flash("alertMessage")
+         const alertStatus = req.flash("alertStatus")
+         const alert = { message: alertMessage, status: alertStatus }
+
          const category = await Category.find()
          res.render('admin/category/view_category',{
-            category
+            category,
+            alert
          })
       } catch (error) {
-         console.log(error)
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
    createView: async(req, res)=>{
       try {
          res.render('admin/category/create')
       } catch (error) {
-         console.log(error)         
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
    createAction: async(req, res)=>{
@@ -25,9 +35,14 @@ module.exports = {
          let category = await Category({ name })
          await category.save();
 
+         req.flash('alertMessage', 'Successfully added category ')
+         req.flash('alertStatus', 'success')
+
          res.redirect('/category')
       } catch (error) {
-         console.log(error)
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
    editView: async(req, res)=>{
@@ -39,7 +54,9 @@ module.exports = {
             category
          })
       } catch (error) {
-         console.log(error)         
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
    editAction: async(req, res)=>{
@@ -47,26 +64,36 @@ module.exports = {
          const { id } = req.params
          const { name } = req.body
          
-         const category = await Category.findOneAndUpdate({ 
+         await Category.findOneAndUpdate({ 
             _id: id 
          }, { name })
 
+         req.flash('alertMessage', 'Successfully updated category ')
+         req.flash('alertStatus', 'success')
+
          res.redirect('/category')
       } catch (error) {
-         console.log(error)
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
    deleteAction: async(req, res)=>{
       try {
          const { id } = req.params
          
-         const category = await Category.findOneAndRemove({ 
+         await Category.findOneAndRemove({ 
             _id: id 
          })
 
+         req.flash('alertMessage', 'Successfully deleted category ')
+         req.flash('alertStatus', 'success')
+
          res.redirect('/category')
       } catch (error) {
-         console.log(error)
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/category')
       }
    },
 }
