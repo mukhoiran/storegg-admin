@@ -4,6 +4,6 @@ let categorySchema = mongoose.Schema({
       type: String,
       require: [true, 'Category name can not empty']
    }
-})
+}, { timestaps: true })
 
 module.exports = mongoose.model('Category', categorySchema)

@@ -24,6 +24,6 @@ let voucherSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
    },
-})
+}, { timestaps: true })
 
 module.exports = mongoose.model('Voucher', voucherSchema)

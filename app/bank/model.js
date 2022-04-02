@@ -12,6 +12,6 @@ let bankSchema = mongoose.Schema({
       type: String,
       require: [true, 'Account number name can not empty']
    }
-})
+}, { timestaps: true })
 
 module.exports = mongoose.model('Bank', bankSchema)
