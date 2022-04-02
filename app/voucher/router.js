@@ -4,6 +4,9 @@ const { index, createView , createAction, editView, editAction, deleteAction, st
 const multer = require('multer')
 const os = require('os')
 
+const { isLoginAdmin } = require('../middleware/auth')
+router.use(isLoginAdmin)
+
 /* GET home page. */
 router.get('/', index);
 router.get('/create', createView);
