@@ -12,7 +12,9 @@ module.exports = {
          const payment = await Payment.find().populate('banks')
          res.render('admin/payment/view_payment',{
             payment,
-            alert
+            alert,
+            name: req.session.user.name,
+            title: 'Payment'
          })
       } catch (error) {
          req.flash('alertMessage', `${error.message}`)
@@ -23,7 +25,11 @@ module.exports = {
    createView: async(req, res)=>{
       try {
          const bank = await Bank.find()
-         res.render('admin/payment/create', { bank })
+         res.render('admin/payment/create', { 
+            bank,
+            name: req.session.user.name,
+            title: 'Add Payment'
+         })
       } catch (error) {
          req.flash('alertMessage', `${error.message}`)
          req.flash('alertStatus', 'danger')
@@ -55,7 +61,9 @@ module.exports = {
 
          res.render('admin/payment/edit', {
             payment,
-            bank
+            bank,
+            name: req.session.user.name,
+            title: 'Edit Payment'
          })
       } catch (error) {
          req.flash('alertMessage', `${error.message}`)

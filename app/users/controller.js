@@ -58,5 +58,15 @@ module.exports = {
          req.flash('alertStatus', 'danger')
          res.redirect('/')
       }
+   },
+   signoutAction: async(req, res)=>{
+      try {
+         req.session.destroy();
+         res.redirect('/')
+      } catch (error) {
+         req.flash('alertMessage', `${error.message}`)
+         req.flash('alertStatus', 'danger')
+         res.redirect('/')
+      }
    }
 }
